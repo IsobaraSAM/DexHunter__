@@ -1,0 +1,23 @@
+You're right, that's a real bug in what I gave you. DexHunter is a responsive web app, not a fixed 720px canvas, so hardcoded pixel values break on any other screen size. Fixing the stored spec and the prompt to use relative units instead.
+
+---
+
+Rebuild the token row card using image 2 as the structural reference (ticker in full plus name below it on the left with logo and chain badge, price plus percent stacked top right, launchpad icon plus volume plus MC on the row beneath that). Fix the social icon placement from the last attempt, which crammed the globe and X icons too tight with no spacing from the launchpad/V/MC cluster.
+
+Use relative units throughout (rem, em, %, flex/grid), never fixed px tied to one screen size, since this is a responsive web app viewed across different device widths.
+
+Exact spec:
+
+Row container: full width, fixed height 7rem, padding 0.75rem left and right.
+
+Left block: logo 3.5rem by 3.5rem, chain badge 1.25rem by 1.25rem overlapping bottom right corner of logo. 0.625rem gap from logo to text block. Ticker text 1.0625rem bold, full width available, never truncates. Name text 0.8125rem regular, gray, max width to fit remaining row space, ellipsis on overflow.
+
+Right block, 2 lines, right aligned, starts at a fixed position so it never collides with the left block even on long tickers:
+
+Line 1: price text 1rem bold, percent text 0.8125rem directly beneath it, 0.125rem gap between them, colored green or red.
+
+Line 2: positioned 0.375rem below line 1's percent text. Elements left to right within line 2, each separated by 0.375rem gap: launchpad icon 1rem by 1rem, then "V: $X" text 0.75rem, then "MC: $X" text 0.75rem, then a 1px vertical divider 0.75rem tall with 0.25rem margin each side, then social icons 1rem by 1rem each with 0.375rem gap between icons if more than one, then the +N overflow badge if applicable, 1rem by 1rem circle, 0.6875rem bold text.
+
+If line 2 total content exceeds available width on narrower screens: shrink V/MC text to 0.6875rem first, then shrink icons to 0.875rem, before anything wraps or row height changes. Use flexbox with gap and overflow handling so this scales correctly across screen sizes rather than breaking at one fixed width.
+
+Confirm this spec before implementing.
